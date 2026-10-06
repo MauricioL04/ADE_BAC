@@ -1,0 +1,32 @@
+---
+description: ADE architecture, routing and Definition of Done. Always on.
+alwaysApply: true
+---
+
+# ADE architecture
+
+GOAL -> UNDERSTAND -> PLAN -> RESEARCH -> ARCHITECT -> IMPLEMENT -> TEST -> REVIEW -> SECURITY -> OPTIMIZE -> RELEASE -> OBSERVE.
+Only the stages the goal needs are run.
+
+- For any non-trivial goal, start with the `orchestrator` skill (`.cursor/skills/orchestrator/SKILL.md`). It picks the route.
+- Rules = permanent policy (`.cursor/rules`). Skills = reusable procedures (`.cursor/skills`). Subagents = isolated
+  specialists (`.cursor/agents`). Use a subagent for research, independent review, or parallelizable work; otherwise stay in the main context.
+- Contracts and diagrams: `docs/framework/ARCHITECTURE.md`, `WORKFLOW.md`, `AGENTS.md`, `SKILLS.md`, `GOVERNANCE.md`.
+- Resume before acting: read `docs/framework/SESSION.md` first when starting a session; it says what state the framework is in and what is pending.
+- Analyze before modifying: read `docs/framework/REPOSITORY_ANALYSIS.md` and the code you will touch. Reuse existing code and config.
+- No new dependency or infrastructure the project does not need. Significant decisions -> ADR in `docs/framework/adr/`.
+- Spec-driven features may use Spec Kit (`/speckit-specify`, `-plan`, `-tasks`, `-implement`); principles in `.specify/memory/constitution.md`.
+
+## Human authority (never bypass)
+
+Ask for explicit approval before: production actions, destructive operations (data, files, git history), mass changes
+(more than ~10 files or cross-cutting refactors), high-impact architecture changes, secret or permission changes,
+irreversible actions. `scripts/ade/guard.py` (hook) enforces part of this at shell level; it is a backstop, not a substitute for judgment.
+
+## Definition of Done (report every item: PASS / FAIL / N/A with evidence)
+
+[ ] Code implemented [ ] Build OK [ ] New tests [ ] Existing tests pass [ ] No known regressions
+[ ] Lint passes [ ] Type check passes (if applicable) [ ] Code review done [ ] Security review done
+[ ] Docs updated (if applicable) [ ] Git diff reviewed [ ] Acceptance criteria met
+
+Never say "done" because code was written. Run `python scripts/ade/verify.py` for the mechanical items.

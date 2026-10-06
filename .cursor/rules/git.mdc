@@ -1,0 +1,14 @@
+---
+description: Git discipline - small commits, no secrets, no destructive operations without approval. Always applies.
+alwaysApply: true
+---
+
+# Git
+
+- Small, coherent commits; one logical change each. The message describes the real change (what and why), not "updates".
+- Before any significant commit: TEST -> REVIEW -> SECURITY -> COMMIT. Run `python scripts/ade/verify.py` and `git diff` first.
+- Review `git status`/`git diff` before committing. Flag and exclude unrelated changes. Never overwrite the user's uncommitted work.
+- Never commit secrets or `.env` files (the secret scan in `verify.py` and CI checks this).
+- Do not commit, push, or open PRs unless the user asks. Never use `--force`, `reset --hard`, `clean -fd`, `branch -D`, or `--no-verify` without explicit approval (`--force-with-lease` on your own feature branch is acceptable when asked to push).
+- Do not change git config. Do not push to main/master directly.
+- Machine-local state stays out of git: `.ade/`, `.env`, agent credentials.

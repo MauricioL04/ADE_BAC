@@ -1,0 +1,16 @@
+---
+description: Database safety for SQL, schema, migrations and queries (Oracle-aware).
+globs: "**/*.sql,**/migrations/**,**/*.pls,**/*.pks,**/*.pkb"
+alwaysApply: false
+---
+
+# Database
+
+- Use the `database` skill (or `database` subagent) for any SQL, schema, index or migration change.
+- Never execute automatically: DROP, TRUNCATE, mass DELETE/UPDATE, destructive ALTER, destructive migrations.
+  Flow: ANALYZE -> GENERATE SCRIPT -> SHOW IMPACT (rows, locks, rollback) -> HUMAN APPROVAL -> EXECUTE.
+- Bind variables / parameterized queries always; never build SQL by string concatenation with external input.
+- Migrations ship a forward and a rollback script; prefer expand -> migrate -> contract for compatibility.
+- Oracle: DDL auto-commits (no transactional rollback); statements about optimizer/plan behavior must come from a real
+  execution plan (`DBMS_XPLAN`) or be labelled ASSUMPTION. Never invent a plan or statistics.
+- Never run against production; connection strings and credentials come from env vars, never from files in the repo.

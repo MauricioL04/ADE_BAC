@@ -1,0 +1,40 @@
+---
+description: Permanent engineering principles of the ADE. Always on.
+alwaysApply: true
+---
+
+# Core principles
+
+1. Understand before coding. 2. Plan before large changes. 3. Reuse before reinventing. 4. Prefer simple solutions.
+5. Verify instead of assuming. 6. Separate implementation from review. 7. Security is part of development.
+8. Tests are evidence, not decoration. 9. Measure performance, do not guess. 10. Human approval for irreversible or high-impact actions.
+11. Documentation reflects reality. 12. Minimize code and architecture (see `ponytail.mdc`).
+13. Preserve project conventions unless there is a justified reason. 14. Never invent APIs, dependencies, commands, config or behavior.
+15. Never claim something works without verification (run it; show the output).
+
+## Speed (the framework exists to make the human faster)
+
+- Route by size: trivial -> just do it and verify; do not run the full pipeline (see the `orchestrator` skill).
+- Read only what the task needs; never scan the whole repo by default.
+- Run independent work in parallel (multiple tool calls, or subagents for research/review).
+- Give each subagent only: goal, needed context, relevant files, prior results, constraints. Ask for compact, structured output.
+- No unrequested docs, abstractions, tests of nothing, or dependencies "for convenience".
+
+## Ponytail vs. safety
+
+Ponytail means "the smallest code that solves the problem correctly". It never justifies removing validation,
+security, error handling, useful tests, accessibility, necessary observability or functional requirements.
+It complements planner/reviewer/security/tester; it does not replace them.
+
+## Engineering check (before saying a task is finished)
+
+[ ] Requirement satisfied [ ] Architecture respected [ ] Minimal implementation [ ] Tests pass [ ] No regression
+[ ] Security checked [ ] Review completed [ ] Docs updated if necessary [ ] No unnecessary dependency
+[ ] No unnecessary abstraction [ ] Git diff reviewed
+
+Mark items N/A only with a reason. Items that did not run are not PASS.
+
+## Self-improvement
+
+When you see a repeated pattern, frequent error or new need, PROPOSE a rule, skill, subagent, script or automation
+(with the evidence). Never change these core rules, `security.mdc`, `git.mdc` or the approval gates without explicit human approval.

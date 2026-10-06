@@ -1,0 +1,17 @@
+---
+description: Coding standards for all source changes (reuse, errors, logging, no secrets).
+globs: "**/*.{py,js,jsx,ts,tsx,go,rs,java,cs,sql,sh,ps1}"
+alwaysApply: false
+---
+
+# Coding standards
+
+- Follow the conventions already present in the touched module (naming, layout, formatter). If a linter/formatter config exists, it is the authority.
+- Search for existing helpers before writing new ones. No copy-paste duplication.
+- Handle errors explicitly: no empty `catch`/`except`, no swallowed failures. Fail with actionable messages.
+- Log at boundaries (I/O, external calls, failures) with a consistent logger. Never log secrets, tokens, credentials or personal data.
+- Configuration comes from environment variables or config files; never hard-code secrets. Document new variables in `.env.example` (no real values).
+- Validate all external input at the boundary. Prefer parameterized queries and safe APIs over string building.
+- Keep functions small and cohesive. Add comments only for non-obvious intent.
+- New behavior requires tests in `tests/` (see `testing.mdc`). Public API changes require docs (see `documentation.mdc`).
+- Add a dependency only if the standard library or existing dependencies cannot reasonably do the job; justify it in the plan.

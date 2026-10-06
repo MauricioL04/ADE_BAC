@@ -1,0 +1,14 @@
+---
+description: Keep documentation and ADRs in sync with code. Always applies.
+alwaysApply: true
+---
+
+# Documentation
+
+Update docs in the same change as the code when applicable:
+
+- `README.md` (if it exists) for user-visible behavior or setup changes.
+- `docs/framework/*.md` when the ADE itself changes.
+- API docs and configuration docs (including `.env.example`) when interfaces or settings change.
+- An ADR in `docs/framework/adr/` for every important architectural decision. Copy `docs/framework/adr/0000-template.md`, number sequentially (`ADR-XXXX`), fields: Context, Decision, Alternatives, Consequences, Status.
+- Docs must describe what exists. Never document a feature that is not implemented; mark future work as "Planned".

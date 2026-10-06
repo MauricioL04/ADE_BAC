@@ -1,0 +1,14 @@
+---
+description: Testing and verification rules. Applies when writing code or tests.
+globs: "**/*.{py,js,jsx,ts,tsx,go,rs,java,cs}"
+alwaysApply: false
+---
+
+# Testing
+
+- A change is not complete if it does not build, tests fail, there are regressions, lint fails, or type checking fails (when a type checker exists).
+- New behavior gets new tests under `tests/` (or the stack's convention). Bug fixes get a regression test that fails before the fix.
+- Run the real project commands, never invented ones. `python scripts/ade/verify.py --list` shows what is detected; `python scripts/ade/verify.py` runs it and prints a TEST REPORT.
+- After fixing a failure, re-run the full validation, not just the failing test.
+- Tests must be deterministic and independent; no network or real credentials. Build secret-looking fixtures at runtime (e.g. string concatenation) so the secret scan stays clean.
+- Report results in the TEST REPORT format defined in `.cursor/skills/testing/SKILL.md`. SKIP (no command detected) is not PASS.

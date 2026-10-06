@@ -1,0 +1,25 @@
+---
+description: Security baseline (AppSec, secrets, database safety). Always applies.
+alwaysApply: true
+---
+
+# Security baseline
+
+- Never write secrets, tokens, keys or real credentials into files, logs, tests, docs or commits. Use env vars; ship `.env.example` only. Never read or print `.env` contents.
+- Treat all external input as untrusted: prevent SQL/command injection, XSS, CSRF, SSRF, path traversal, unsafe deserialization. Use parameterized queries, allowlists, and framework escaping.
+- Authentication and authorization are checked server-side on every protected path; guard against IDOR and privilege escalation.
+- Least privilege for services, containers (non-root, minimal image), tokens and CI permissions.
+- Do not weaken security config (TLS verification, CORS, auth, CSP) to make something work.
+- Findings must be classified CONFIRMED / POTENTIAL / FALSE POSITIVE with evidence. Do not invent vulnerabilities.
+
+## Database safety
+
+- NEVER run automatically: DROP DATABASE/TABLE, TRUNCATE, mass DELETE/UPDATE, destructive ALTER, destructive migrations.
+- Required flow: ANALYZE -> GENERATE SCRIPT -> SHOW IMPACT (rows, locks, rollback) -> HUMAN APPROVAL -> EXECUTE.
+- Use the `database` skill for any SQL, schema or migration change (Oracle-aware).
+
+## Approval gates
+
+Human approval is required for: production, destructive operations, mass changes, high-impact architecture, migrations
+that lose data, secrets/permissions changes, irreversible actions. `scripts/ade/guard.py` (hook in `.cursor/hooks.json`)
+prompts on risky shell commands.
