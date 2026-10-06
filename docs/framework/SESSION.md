@@ -4,9 +4,24 @@ Read this first when resuming. It is short on purpose. Update it at the end of e
 
 ## Where we are
 
-**State**: framework ready to accept a project brief. No application code exists yet.
+**State**: framework ready to accept a project brief. No application code exists yet. Repo initialized on `master` with 7 commits (see "Last session changes" below).
 **Waiting on**: the user to fill `PROJECT.md` with the real case (goal, users, scope, constraints, acceptance).
-**Last verified**: 2026-09-29 — 38 tests PASS, `verify.py` PASS on applicable stages, `kickoff.ps1` 4/4 PASS.
+**Last verified**: 2026-10-06 — 39 tests PASS, `verify.py` PASS on applicable stages (Unit/Regression/Secret-Scan PASS; Lint/Type/Integration SKIP as expected).
+
+## Last session changes (2026-10-06)
+
+- Initial commit set on `master` (7 commits, no remote yet, no push):
+  - `a0c1ce2` docs(vault): add Estado-Framework snapshot and link from README
+  - `f6a6575` docs(vault): seed Obsidian investigation vault
+  - `12208d9` docs(framework): ADE framework documentation
+  - `84ca2ad` feat(ade): tooling scripts, tests and CI workflow
+  - `f3fa450` feat(speckit): add Spec Kit integration
+  - `1b846f9` feat(ade): add Cursor framework config (rules, skills, agents, hooks)
+  - `e88a8e0` chore: add gitignore and project overview
+- `.gitignore`: added `.cache/` and `.cursor/skills/_external/` (670 unaudited third-party skill files kept local; opt-in via `!.cursor/skills/_external/<name>/`).
+- `tests/test_framework.py::test_referenced_repo_paths_exist` now skips `_external/` paths (otherwise fails on vendor-only script refs).
+- Vault note added: `docs/obsidian-vault/Estado-Framework.md` (framework inventory + decisions + pending).
+- Git identity committed as `Mauricio Alonso Linares Matos <mauriciolinares@belcorp.biz>` (default). Change with `git config user.name/email` if needed and amend/rebase.
 
 ## What exists (do not rebuild)
 
@@ -55,9 +70,11 @@ Get-Content PROJECT.md              # is section 1 (Goal) still TBD?
 
 ## Pending / open items
 
-- (none at framework level) Waiting for the case to be placed.
-- CI (`.github/workflows/ci.yml`) has never run against a remote; will validate on first push.
-- Stack-specific verification stages (Lint, Type check, Integration) currently SKIP; the `detect` step inside `scripts/ade/verify.py` picks up Node/Python/Go/Rust manifests automatically when they appear.
+- (none at framework level) Waiting for the case to be placed in `PROJECT.md`.
+- No `remote origin` configured yet; CI (`.github/workflows/ci.yml`) will validate on first push.
+- Stack-specific verification stages (Lint, Type check, Integration) currently SKIP; `verify.py`'s `detect` step picks up Node/Python/Go/Rust manifests automatically when they appear.
+- **Known noise (not actionable from this repo)**: PowerShell wrapper of Cursor's terminal on Windows prints `Add-Content : No se puede leer la secuencia` after many shell calls. Verified in isolation that our hooks return valid JSON; it's a Cursor terminal wrapper quirk, cosmetic only.
+- Git identity on existing commits is the default global one; if a different author is required, rewrite before publishing (`git rebase -i --root` + `--reset-author`).
 
 ## Housekeeping
 
