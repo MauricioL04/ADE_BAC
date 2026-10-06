@@ -9,6 +9,7 @@
 - [[Como-Trabajamos]] — flujo ADE, prioridades, reglas de tokens, estilo de escritura.
 - [[Equipo]] — agentes, skills internas y externas, qué skill tiene cada agente.
 - [[Plantilla-Proyecto-SRS]] — plantilla para arrancar cualquier proyecto nuevo (validación + SRS corto + diagramas).
+- [[Estado-Framework]] — snapshot vivo del framework (inventario, validación, commits, pendientes).
 
 ## Reglas de la bóveda
 
