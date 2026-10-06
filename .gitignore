@@ -1,0 +1,22 @@
+# ADE local state (run log)
+.ade/
+.cache/
+
+# Third-party skills vendored under .cursor/skills/_external/ are not audited
+# and should not inflate PR diffs. Install them locally; don't version them.
+# To include a reviewed subset, add `!.cursor/skills/_external/<name>/` below.
+.cursor/skills/_external/
+
+# Interaction log (prompts/responses may hold sensitive data). Remove this line to version it.
+docs/framework/log/
+
+# Secrets - never commit
+.env
+.env.*
+!.env.example
+
+# Python / Node
+__pycache__/
+*.pyc
+node_modules/
+.venv/
