@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main, master]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    # install dependencies -> lint -> type check -> unit/integration tests -> secret scan -> build
+    # All of it is driven by scripts/ade/verify.py, which only runs commands that the
+    # repository really defines (package.json scripts, go.mod, Cargo.toml, tests/ ...).
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # Install dependencies only for stacks that exist. Add setup-node/go/rust steps
+      # here when the project gains that stack (verify.py already detects and runs them).
+      - name: Install Python dependencies (if declared)
+        run: |
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: ADE tooling unit tests
+        run: python -m unittest discover -s tests -v
+
+      - name: Verify (build, lint, type check, tests, secret scan)
+        run: python scripts/ade/verify.py
+
+  # Review: human PR review is the gate. Enable branch protection requiring approval
+  # (and optionally Cursor Bugbot) on the default branch.
+
+  deploy:
+    # Placeholder. Deployment is intentionally NOT automated (human approval required).
+    # When ready: add an `environment: production` with required reviewers in repo settings
+    # and put the real deploy command here. Do not invent it before the project has a target.
+    if: false
+    needs: verify
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - run: echo "Configure deployment after the project defines a target."
